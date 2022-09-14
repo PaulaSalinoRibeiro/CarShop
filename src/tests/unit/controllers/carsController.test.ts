@@ -4,7 +4,7 @@ import { NextFunction, Request, Response } from 'express';
 import CarsModel from '../../../models/CarsMolde';
 import CarsService from '../../../services/CarsService';
 import CarsController from '../../../controllers/CarsController';
-import { carsObjInput, carsObjOutput } from '../../mocks/carsMock';
+import { carsListOutput, carsObjInput, carsObjOutput } from '../../mocks/carsMock';
 
 
 const { expect } = chai;
@@ -21,6 +21,7 @@ describe('CarsController', () => {
 
   before(async () => {
     sinon.stub(carsService, 'create').resolves(carsObjOutput);
+    sinon.stub(carsService, 'list').resolves(carsListOutput);
 
     res.status = sinon.stub().returns(res);
     res.json = sinon.stub().returns(res);
@@ -37,7 +38,16 @@ describe('CarsController', () => {
 
       expect((res.status as sinon.SinonStub).calledWith(201)).to.be.true;
       expect((res.json as sinon.SinonStub).calledWith(carsObjOutput)).to.be.true;
-    })
+    });
+  });
+
+  describe('list cars', () => {
+    it('should returns status 200 and list of cars', async () => {
+      await carsController.list(req, res);
+
+      expect((res.status as sinon.SinonStub).calledWith(200)).to.be.true;
+      expect((res.json as sinon.SinonStub).calledWith(carsListOutput)).to.be.true;
+    });
   });
 
 });
