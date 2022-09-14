@@ -5,6 +5,7 @@ import HandleError from '../util/HandleError';
 
 class CarsService implements IService<ICar> {
   private carModel: IModel<ICar>;
+  private static MIN_LENGTH = 24;
 
   constructor(model: IModel<ICar>) {
     this.carModel = model;
@@ -18,6 +19,14 @@ class CarsService implements IService<ICar> {
 
   public async list(): Promise<ICar[]> {
     return this.carModel.read();
+  }
+
+  public async listOne(id: string): Promise<ICar | null> {
+    if (id.length < CarsService.MIN_LENGTH) {
+      throw new HandleError(400, 'Id must have 24 hexadecimal characters');
+    }
+    const car = await this.carModel.readOne(id);
+    return car;
   }
 }
 
