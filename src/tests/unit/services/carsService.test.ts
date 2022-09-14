@@ -15,6 +15,7 @@ describe('CarsService', () => {
   before(async () => {
     sinon.stub(carsModel, 'create').resolves(carsObjOutput);
     sinon.stub(carsModel, 'read').resolves(carsListOutput);
+    sinon.stub(carsModel, 'readOne').resolves(carsObjOutput);
   });
 
   after(()=>{
@@ -32,6 +33,21 @@ describe('CarsService', () => {
     it('should return list with cars', async () => {
       const listCars = await carsService.list();
       expect(listCars).to.be.deep.equal(carsListOutput);
+    });
+  });
+
+  describe('FindOne car', () => {
+    it('should return a car if right id', async () => {
+      const car = await carsService.listOne(carsObjOutput._id);
+      expect(car).to.be.deep.equal(carsObjOutput);
+    });
+
+    it('should throw erro if id.length is small that 24 characters', async () => {
+      try {
+        await carsService.listOne('wrong_id');
+      } catch(err: any) {
+        expect(err.message).to.be.equal('Id must have 24 hexadecimal characters');
+      }
     });
   });
 

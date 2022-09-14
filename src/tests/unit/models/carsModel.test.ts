@@ -14,6 +14,7 @@ describe('CarsModel', () => {
   before(async () => {
     sinon.stub(Model, 'create').resolves(carsObjOutput);
     sinon.stub(Model, 'find').resolves(carsListOutput);
+    sinon.stub(Model, 'findOne').resolves(carsObjOutput);
   });
 
   after(()=>{
@@ -31,6 +32,21 @@ describe('CarsModel', () => {
     it('should returns a list with cars', async () => {
       const listCars = await carsModel.read();
       expect(listCars).to.be.deep.equal(carsListOutput);
+    });
+  });
+
+  describe('Find a car by id', () => {
+    it('shoult return a car', async () => {
+      const car = await carsModel.readOne('632231a9c9b779b39ada8047');
+      expect(car).to.be.deep.equal(carsObjOutput);
+    });
+
+    it('should throw a error Object not found', async () => {
+      try {
+        await carsModel.readOne('632231a9c9b779b39ada8048');
+      } catch (error: any) {
+        expect(error.message).to.be.equal('Object not found')
+      }
     });
   });
 
