@@ -14,6 +14,12 @@ class CarsController {
     const result = await this.service.list();
     return res.status(200).json(result);
   }
+
+  async listOne(req: Request, res: Response): Promise<Response> {
+    const result = await this.service.listOne(req.params.id);
+    if (!result) return res.status(404).json({ error: 'Object not found' });
+    return res.status(200).json(result);
+  }
 }
 
 export default CarsController;
