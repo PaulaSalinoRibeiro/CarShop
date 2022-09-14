@@ -10,10 +10,14 @@ class CarsService implements IService<ICar> {
     this.carModel = model;
   }
 
-  public async create(obj: ICar) {
+  public async create(obj: ICar): Promise<ICar> {
     const parsed = carSchema.safeParse(obj);
     if (!parsed.success) throw new HandleError(400, 'Invalid fields');
     return this.carModel.create(obj);
+  }
+
+  public async list(): Promise<ICar[]> {
+    return this.carModel.read();
   }
 }
 
