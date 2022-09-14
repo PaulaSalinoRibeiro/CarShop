@@ -20,7 +20,7 @@ export default abstract class MongoModel<T> implements IModel<T> {
   }
 
   public async readOne(id: string): Promise<T | null> {
-    if (!isValidObjectId(id)) throw new HandleError(400, MongoModel.message);
+    if (!isValidObjectId(id)) throw new HandleError(404, 'Object not found');
     return this._model.findOne({ id });
   }
 
