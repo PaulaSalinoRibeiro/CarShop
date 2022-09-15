@@ -3,6 +3,7 @@ import chai from 'chai';
 import CarsModel from '../../../models/CarsMolde';
 import CarsService from '../../../services/CarsService';
 import { carsListOutput, carsObjInput, carsObjOutput } from '../../mocks/carsMock';
+import { ICar } from '../../../interfaces/ICar';
 
 const { expect } = chai;
 
@@ -16,6 +17,7 @@ describe('CarsService', () => {
     sinon.stub(carsModel, 'create').resolves(carsObjOutput);
     sinon.stub(carsModel, 'read').resolves(carsListOutput);
     sinon.stub(carsModel, 'readOne').resolves(carsObjOutput);
+    sinon.stub(carsModel, 'update').resolves(carsObjOutput);
   });
 
   after(()=>{
@@ -49,6 +51,29 @@ describe('CarsService', () => {
         expect(err.message).to.be.equal('Id must have 24 hexadecimal characters');
       }
     });
+  });
+
+  describe('Update a car', () => {
+    it('should update a car id right id', async () => {
+      const carUpdate = await carsService.update(carsObjOutput._id, carsObjInput);
+      expect(carUpdate).to.be.deep.equal(carsObjOutput);
+    });
+
+    it('should throw a error if worng id', async () => {
+      try {
+        await carsService.update('632231a9c9b779b39ada8040', carsObjInput);
+      } catch (err: any) {
+        expect(err.message).to.be.equal('Object not found')
+      }
+    });
+  });
+
+  it('should throw a error if worng body',  async () => {
+    try {
+      await carsService.update(carsObjOutput._id, {} as ICar);
+    } catch (err: any) {
+      expect(err.message).to.be.equal('Invalis fields')
+    }
   });
 
 });

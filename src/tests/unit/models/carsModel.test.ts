@@ -15,6 +15,7 @@ describe('CarsModel', () => {
     sinon.stub(Model, 'create').resolves(carsObjOutput);
     sinon.stub(Model, 'find').resolves(carsListOutput);
     sinon.stub(Model, 'findOne').resolves(carsObjOutput);
+    sinon.stub(Model, 'findByIdAndUpdate').resolves(carsObjOutput);
   });
 
   after(()=>{
@@ -46,6 +47,21 @@ describe('CarsModel', () => {
         await carsModel.readOne('632231a9c9b779b39ada8048');
       } catch (error: any) {
         expect(error.message).to.be.equal('Object not found')
+      }
+    });
+  });
+
+  describe('Update a car', () => {
+    it('should update a car', async () => {
+      const carUpdate = await carsModel.update(carsObjOutput._id, carsObjInput);
+      expect(carUpdate).to.be.deep.equal(carsObjOutput);
+    });
+
+    it('should throws error if id inválid', async () => {
+      try {
+        await carsModel.update('worng_id', carsObjInput);
+      } catch ( err: any) {
+        expect(err.message).to.be.equal('Inválid ID')
       }
     });
   });
