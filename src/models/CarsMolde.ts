@@ -9,6 +9,8 @@ const carsMoogoseSchema = new Schema<ICar>({
   buyValue: Number,
   seatsQty: Number,
   doorsQty: Number,
+}, {
+  versionKey: false,
 });
 
 export default class CarsModel extends MongoModel<ICar> {
