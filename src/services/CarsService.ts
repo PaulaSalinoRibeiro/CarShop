@@ -39,6 +39,13 @@ class CarsService implements IService<ICar> {
     const carUpdated = await this.carModel.update(_id, obj);
     return carUpdated;
   }
+
+  public async delete(_id: string): Promise<void> {
+    const exist = await this.listOne(_id);
+    if (!exist) throw new HandleError(404, 'Object not found');
+
+    await this.carModel.delete(_id);
+  }
 }
 
 export default CarsService;
