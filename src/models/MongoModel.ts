@@ -6,7 +6,6 @@ export default abstract class MongoModel<T> implements IModel<T> {
   private static message = 'Inválid ID';
   protected _model: Model<T>;
 
-  // Pq a Model do moogose permite passar um generic?
   constructor(model:Model<T>) {
     this._model = model;
   }
