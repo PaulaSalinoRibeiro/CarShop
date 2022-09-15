@@ -28,7 +28,7 @@ class CarsController {
 
   async delete(req: Request, res: Response): Promise<Response | void> {
     await this.service.delete(req.params.id);
-    return res.status(204).end();
+    return res.status(204).json();
   }
 }
 

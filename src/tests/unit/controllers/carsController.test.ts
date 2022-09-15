@@ -24,6 +24,7 @@ describe('CarsController', () => {
     sinon.stub(carsService, 'list').resolves(carsListOutput);
     sinon.stub(carsService, 'listOne').resolves(carsObjOutput);
     sinon.stub(carsService, 'update').resolves(carsObjOutput);
+    sinon.stub(carsService, 'delete').resolves();
 
     res.status = sinon.stub().returns(res);
     res.json = sinon.stub().returns(res);
@@ -70,7 +71,17 @@ describe('CarsController', () => {
       await carsController.update(req, res);
       expect((res.status as sinon.SinonStub).calledWith(200)).to.be.true;
       expect((res.json as sinon.SinonStub).calledWith(carsObjOutput)).to.be.true;
-    })
+    });
   });
+
+  describe('Delete a car', () => {
+    it('shoud return status 204', async () => {
+      req.params = {id : carsObjOutput._id }
+
+      await carsController.delete(req, res);
+      expect((res.status as sinon.SinonStub).calledWith(204)).to.be.true;
+      expect((res.json as sinon.SinonStub).calledWith()).to.be.true;
+    })
+  })
 
 });

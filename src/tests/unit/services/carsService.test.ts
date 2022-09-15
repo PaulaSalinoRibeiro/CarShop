@@ -18,6 +18,7 @@ describe('CarsService', () => {
     sinon.stub(carsModel, 'read').resolves(carsListOutput);
     sinon.stub(carsModel, 'readOne').resolves(carsObjOutput);
     sinon.stub(carsModel, 'update').resolves(carsObjOutput);
+    sinon.stub(carsModel, 'delete').resolves();
   });
 
   after(()=>{
@@ -74,6 +75,21 @@ describe('CarsService', () => {
     } catch (err: any) {
       expect(err.message).to.be.equal('Invalis fields')
     }
+  });
+
+  describe('Delete a car', () => {
+    it('should returns null if id is correct', async () => {
+      const carDelete = await carsService.delete(carsObjOutput._id);
+      expect(carDelete).to.be.undefined;
+    });
+
+    it('should throw error if id id invalid', async () => {
+      try {
+        await carsService.delete('632231a9c9b779b39ada8040');
+      } catch (err:any) {
+        expect(err.message).to.be.equal('Object not found')
+      }
+    });
   });
 
 });

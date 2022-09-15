@@ -16,6 +16,7 @@ describe('CarsModel', () => {
     sinon.stub(Model, 'find').resolves(carsListOutput);
     sinon.stub(Model, 'findOne').resolves(carsObjOutput);
     sinon.stub(Model, 'findByIdAndUpdate').resolves(carsObjOutput);
+    sinon.stub(Model, 'findByIdAndDelete').resolves(carsObjOutput);
   });
 
   after(()=>{
@@ -62,6 +63,21 @@ describe('CarsModel', () => {
         await carsModel.update('worng_id', carsObjInput);
       } catch ( err: any) {
         expect(err.message).to.be.equal('Inválid ID')
+      }
+    });
+  });
+
+  describe('Delete car', () => {
+    it('should delete if id is correct', async () => {
+      const carDeleted = await carsModel.delete(carsObjOutput._id);
+      expect(carDeleted).to.be.deep.equal(carsObjOutput);
+    });
+
+    it('should throw erro with wrong id', async () => {
+      try {
+        await carsModel.delete('632231a9c9b779b39ada80xx')
+      } catch (err:any) {
+        expect(err.message).to.be.equal('Inválid ID');
       }
     });
   });
