@@ -20,6 +20,11 @@ class CarsController {
     if (!result) return res.status(404).json({ error: 'Object not found' });
     return res.status(200).json(result);
   }
+
+  async update(req: Request, res: Response): Promise<Response> {
+    const result = await this.service.update(req.params.id, req.body);
+    return res.status(200).json(result);
+  }
 }
 
 export default CarsController;
