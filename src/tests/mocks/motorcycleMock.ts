@@ -18,3 +18,22 @@ export const motorcycleObjOutput: IMotorcycle & { _id: string } = {
   category: "Street",
   engineCapacity: 125
 }
+
+export const motorcycleList: IMotorcycle[] = [
+  {
+    model: "Honda CG Titan 125",
+    year: 1963,
+    color: "red",
+    buyValue: 3500,
+    category: "Street",
+    engineCapacity: 125
+  },
+  {
+    model: "Honda CG Titan 125",
+    year: 1963,
+    color: "red",
+    buyValue: 3500,
+    category: "Street",
+    engineCapacity: 125
+  }
+] 
