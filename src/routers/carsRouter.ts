@@ -12,5 +12,6 @@ const carsRouter = Router();
 carsRouter.post('/', (req, res) => carsController.create(req, res));
 carsRouter.get('/', (req, res) => carsController.list(req, res));
 carsRouter.get('/:id', (req, res) => carsController.listOne(req, res));
+carsRouter.put('/:id', (req, res) => carsController.update(req, res));
 
 export default carsRouter;
