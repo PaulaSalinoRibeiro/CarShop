@@ -1,11 +1,10 @@
 import * as sinon from 'sinon';
 import chai from 'chai';
-import { NextFunction, Request, Response } from 'express';
+import { Request, Response } from 'express';
 import CarsModel from '../../../models/CarsMolde';
 import CarsService from '../../../services/CarsService';
 import CarsController from '../../../controllers/CarsController';
 import { carsListOutput, carsObjInput, carsObjOutput } from '../../mocks/carsMock';
-
 
 const { expect } = chai;
 
@@ -81,7 +80,7 @@ describe('CarsController', () => {
       await carsController.delete(req, res);
       expect((res.status as sinon.SinonStub).calledWith(204)).to.be.true;
       expect((res.json as sinon.SinonStub).calledWith()).to.be.true;
-    })
-  })
+    });
+  });
 
 });
