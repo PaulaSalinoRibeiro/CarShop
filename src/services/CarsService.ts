@@ -25,8 +25,19 @@ class CarsService implements IService<ICar> {
     if (id.length < CarsService.MIN_LENGTH) {
       throw new HandleError(400, 'Id must have 24 hexadecimal characters');
     }
+    
     const car = await this.carModel.readOne(id);
+    
     return car;
+  }
+
+  public async update(_id: string, obj: ICar): Promise<ICar | null> {
+    const exist = await this.listOne(_id);
+    if (!exist) throw new HandleError(404, 'Object not found');
+    const parsed = carSchema.safeParse(obj);
+    if (!parsed.success) throw new HandleError(400, 'Invalis fields');
+    const carUpdated = await this.carModel.update(_id, obj);
+    return carUpdated;
   }
 }
 
