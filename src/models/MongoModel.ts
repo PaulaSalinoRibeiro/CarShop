@@ -3,7 +3,7 @@ import HandleError from '../util/HandleError';
 import { IModel } from '../interfaces/IModel';
 
 export default abstract class MongoModel<T> implements IModel<T> {
-  private static message = 'InválidID';
+  private static message = 'Inválid ID';
   protected _model: Model<T>;
 
   // Pq a Model do moogose permite passar um generic?
@@ -19,15 +19,15 @@ export default abstract class MongoModel<T> implements IModel<T> {
     return this._model.find();
   }
 
-  public async readOne(id: string): Promise<T | null> {
-    if (!isValidObjectId(id)) throw new HandleError(404, 'Object not found');
-    return this._model.findOne({ id });
+  public async readOne(_id: string): Promise<T | null> {
+    if (!isValidObjectId(_id)) throw new HandleError(404, 'Object not found');
+    return this._model.findOne({ _id });
   }
 
-  public async update(id: string, obj: T): Promise<T | null> {
-    if (!isValidObjectId(id)) throw new HandleError(400, MongoModel.message);
+  public async update(_id: string, obj:Partial<T>): Promise<T | null> {
+    if (!isValidObjectId(_id)) throw new HandleError(400, MongoModel.message);
     return this._model.findByIdAndUpdate(
-      { id },
+      { _id },
       { ...obj } as UpdateQuery<T>,
       { new: true },
     );
